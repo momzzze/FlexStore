@@ -6,7 +6,7 @@ const requestLogger = (req, res, next) => {
     chalk.greenBright(`\n📥 [${now}] ${req.method} ${req.originalUrl}`)
   );
 
-  if (Object.keys(req.body).length > 0) {
+  if (req.body && Object.keys(req.body).length > 0) {
     console.log(chalk.blueBright(`📦 Body:`), req.body);
   }
 
