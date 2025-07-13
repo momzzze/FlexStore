@@ -23,14 +23,12 @@ export default function Layout() {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen w-full">
         <AppSidebar />
-        <div className="flex-1">
+        <main className="flex-1 w-full p-6 overflow-auto">
           {isMobile && <MobileToggleButton />}
-          <main className="p-4">
-            <Outlet />
-          </main>
-        </div>
+          <Outlet />
+        </main>
       </div>
     </SidebarProvider>
   );

@@ -32,7 +32,11 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm space-y-6 bg-card shadow-lg rounded-lg p-6">
         <div className="flex justify-center">
-          <img src="/flex-store.png" alt="FlexStore" className="h-66 w-66" />
+          <img
+            src="/flex-store.png"
+            alt="FlexStore"
+            className="h-66 w-66 dark:invert"
+          />
         </div>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>

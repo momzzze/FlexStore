@@ -12,9 +12,10 @@ interface AuthState {
   token: string | null;
   user: User | null;
 }
+const token = localStorage.getItem('token');
 
 const initialState: AuthState = {
-  isAuthenticated: false,
+  isAuthenticated: !!token,
   token: localStorage.getItem('token'),
   user: null,
 };

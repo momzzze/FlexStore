@@ -6,6 +6,7 @@ import About from '@/pages/About';
 import Layout from '@/pages/Layout';
 import LoginPage from '@/pages/LoginPage';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import Dashboard from '@/pages/Dashboard';
 
 const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <Dashboard /> },
       { path: 'about', element: <About /> },
       { path: 'settings', element: <Settings /> },
     ],
