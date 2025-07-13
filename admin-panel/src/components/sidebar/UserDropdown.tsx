@@ -9,11 +9,15 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useTheme } from '@/components/theme-provider';
 import { Sun, Moon, Laptop, LogOut, User } from 'lucide-react';
+import { logout } from '@/store/authSlice';
+import { useDispatch } from 'react-redux';
 
 export const UserDropdown = () => {
   const { setTheme } = useTheme();
+  const dispatch = useDispatch();
+
   const handleLogout = () => {
-    // Optionally redirect to login page or show a message
+    dispatch(logout());
     console.log('User logged out');
   };
   return (

@@ -1,4 +1,10 @@
+const {
+  ActivityUserTypes,
+  ActivityActions,
+  ActivityEntities,
+} = require('../../../constants/activityLog');
 const { registerUser, loginUser } = require('../../../services/auth-service');
+const { logActivity } = require('../../../services/logService');
 const { AppError, errorHandler } = require('../../../utils/error-handling');
 
 const login = async (req, res) => {
@@ -9,6 +15,14 @@ const login = async (req, res) => {
       throw new AppError('Email and password are required');
     }
     const { user, token } = await loginUser({ username, password });
+
+    await logActivity({
+      userId: user.id,
+      userType: ActivityUserTypes.BO_USER,
+      action: ActivityActions.LOGIN,
+      entityType: ActivityEntities.LOGIN,
+      details: { ip: req.ip },
+    });
 
     res.status(200).json({
       success: true,
@@ -40,6 +54,14 @@ const register = async (req, res) => {
       username,
       name,
       role,
+    });
+
+    await logActivity({
+      userId: user.id,
+      userType: ActivityUserTypes.BO_USER,
+      action: ActivityActions.REGISTER,
+      entityType: ActivityEntities.USER,
+      details: { ip: req.ip },
     });
 
     res.status(201).json({
