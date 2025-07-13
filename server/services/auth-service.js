@@ -28,7 +28,17 @@ const generateToken = (user) => {
   );
 };
 
-const registerUser = async ({ email, password, name }, role = 'admin') => {
+const registerUser = async ({
+  email,
+  password,
+  name,
+  username,
+  role = 'user',
+}) => {
+  if (!role) {
+    throw new Error('Role is required for user creation');
+  }
+
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     throw new Error('User already exists');
@@ -40,6 +50,7 @@ const registerUser = async ({ email, password, name }, role = 'admin') => {
     data: {
       email,
       password: hashed,
+      username,
       name,
       role,
     },
@@ -48,8 +59,8 @@ const registerUser = async ({ email, password, name }, role = 'admin') => {
   return { user, token: generateToken(user) };
 };
 
-const loginUser = async ({ email, password }, allowedRoles = []) => {
-  const user = await prisma.user.findUnique({ where: { email } });
+const loginUser = async ({ username, password }, allowedRoles = []) => {
+  const user = await prisma.user.findUnique({ where: { username } });
   if (!user) throw new Error('Invalid credentials');
 
   if (allowedRoles.length && !allowedRoles.includes(user.role)) {

@@ -3,12 +3,12 @@ const { AppError, errorHandler } = require('../../../utils/error-handling');
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    if (!email || !password) {
+    if (!username || !password) {
       throw new AppError('Email and password are required');
     }
-    const { user, token } = await loginUser({ email, password });
+    const { user, token } = await loginUser({ username, password });
 
     res.status(200).json({
       success: true,
@@ -27,7 +27,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, name, role } = req.body;
 
     if (!email || !password || !username) {
       throw new AppError('Missing required fields');
@@ -36,7 +36,9 @@ const register = async (req, res) => {
     const { user, token } = await registerUser({
       email,
       password,
-      name: username,
+      username,
+      name,
+      role,
     });
 
     res.status(201).json({
