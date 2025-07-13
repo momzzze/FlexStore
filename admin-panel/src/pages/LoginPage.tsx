@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { authService } from '@/services/authService';
+import { loginSuccess } from '@/store/authSlice';
+import { useDispatch } from 'react-redux';
 
 export default function LoginPage() {
-  const { login } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +20,7 @@ export default function LoginPage() {
 
     try {
       const response = await authService.login(username, password);
-      login(response.token);
+      dispatch(loginSuccess({ token: response.token, user: response.user }));
       navigate('/');
     } catch (err: unknown) {
       console.error('Login error', err);
