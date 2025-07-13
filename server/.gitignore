@@ -62,3 +62,4 @@ pids/
 
 # .gitignore
 swagger-output.json
+/generated/prisma
