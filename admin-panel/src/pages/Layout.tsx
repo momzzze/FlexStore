@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button'; // your existing hook
 import { useIsMobile } from '@/hooks/use-mobile';
+import { BreadcrumbProvider } from '@/contexts/BreadcrumbContext';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 function MobileToggleButton() {
   const { toggleSidebar } = useSidebar();
@@ -22,14 +24,17 @@ export default function Layout() {
   const isMobile = useIsMobile();
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AppSidebar />
-        <main className="flex-1 w-full p-6 overflow-auto">
-          {isMobile && <MobileToggleButton />}
-          <Outlet />
-        </main>
-      </div>
-    </SidebarProvider>
+    <BreadcrumbProvider>
+      <SidebarProvider>
+        <div className="flex min-h-screen w-full">
+          <AppSidebar />
+          <main className="flex-1 w-full p-6 overflow-auto">
+            {isMobile && <MobileToggleButton />}
+            <Breadcrumbs />
+            <Outlet />
+          </main>
+        </div>
+      </SidebarProvider>
+    </BreadcrumbProvider>
   );
 }

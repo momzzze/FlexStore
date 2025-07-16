@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MetricCard } from '@/components/dashboard/MetricCard';
 import { DashboardChart } from '@/components/DashBoardChart';
 import {
@@ -14,6 +14,7 @@ import {
   ordersChartConfig,
 } from '@/utils/chartManipulations';
 import { ProjectTableContainer } from '@/components/dashboard/ProjectTasksTable';
+import { useBreadcrumb } from '@/contexts/BreadcrumbContext';
 
 export const projects = [
   {
@@ -120,7 +121,11 @@ export default function Dashboard() {
   const [selectedChart, setSelectedChart] = useState<
     'visitors' | 'amounts' | 'orders'
   >('visitors');
+  const { setPaths } = useBreadcrumb();
 
+  useEffect(() => {
+    setPaths([{ label: 'Home', href: '/' }, { label: 'Dashboard' }]);
+  }, [setPaths]);
   const chartMap = {
     visitors: visitorsChartConfig,
     amounts: amountsChartConfig,

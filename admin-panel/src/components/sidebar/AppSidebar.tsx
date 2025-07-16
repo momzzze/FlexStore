@@ -15,7 +15,7 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
 } from '@/components/ui/collapsible';
-import { Home, Settings, Info } from 'lucide-react';
+import { Home, Settings, Info, Users } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { UserDropdown } from './UserDropdown';
 import clsx from 'clsx';
@@ -73,7 +73,21 @@ export function AppSidebar({ onClose }: { onClose?: () => void }) {
               </SidebarMenuButton>
             </Link>
           </SidebarMenuItem>
-
+          {/* Clients */}
+          <SidebarMenuItem>
+            <Link to="/clients">
+              <SidebarMenuButton
+                className={clsx(
+                  'w-full px-4 py-2 rounded-md hover:bg-accent transition-all',
+                  isActive('/clients') &&
+                    'bg-accent text-foreground font-semibold'
+                )}
+              >
+                <Users className="w-4 h-4 mr-2" />
+                Clients
+              </SidebarMenuButton>
+            </Link>
+          </SidebarMenuItem>
           {/* Settings Collapsible */}
           <SidebarMenuItem>
             <Collapsible defaultOpen className="group/collapsible">
