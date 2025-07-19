@@ -4,13 +4,28 @@ const {
   editUser,
   removeUser,
 } = require('../../../controllers/admin/userController');
-const { verifyToken } = require('../../../middlewares/auth');
+const { verifyToken, hasPermission } = require('../../../middlewares/auth');
 
 const router = require('express').Router();
 
-router.get('/', verifyToken(), getUsers);
-router.post('/', verifyToken(['admin']), addUser);
-router.put('/:id', verifyToken(['admin']), editUser);
-router.delete('/:id', verifyToken(['admin']), removeUser);
+router.get('/', verifyToken(), hasPermission('view_users'), getUsers);
+router.post(
+  '/',
+  verifyToken(['admin']),
+  hasPermission('create_users'),
+  addUser
+);
+router.put(
+  '/:id',
+  verifyToken(['admin']),
+  hasPermission('edit_users'),
+  editUser
+);
+router.delete(
+  '/:id',
+  verifyToken(['admin']),
+  hasPermission('delete_users'),
+  removeUser
+);
 
 module.exports = router;

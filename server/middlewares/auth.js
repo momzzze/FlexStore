@@ -26,4 +26,14 @@ const verifyToken = (allowedRoles = []) => {
   };
 };
 
-module.exports = { verifyToken };
+const hasPermission = (permission) => (req, res, next) => {
+  if (
+    !Array.isArray(req.user?.permissions) ||
+    !req.user.permissions.includes(permission)
+  ) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+  next();
+};
+
+module.exports = { verifyToken, hasPermission };

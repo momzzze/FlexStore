@@ -25,6 +25,7 @@ interface UserFormModalProps {
 }
 
 export interface UserFormValues {
+  id?: number;
   username: string;
   email: string;
   password?: string;

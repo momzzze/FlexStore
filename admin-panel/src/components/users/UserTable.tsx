@@ -12,6 +12,7 @@ export const UserTable = ({
   handleLimitChange,
   onEditClick,
   onDeleteClick,
+  permissions,
 }: {
   data: User[];
   loading: boolean;
@@ -22,7 +23,10 @@ export const UserTable = ({
   handleLimitChange: (newLimit: number) => void;
   onEditClick: (user: User) => void;
   onDeleteClick: (user: User) => void;
+  permissions?: string[];
 }) => {
+  const canEdit = permissions?.includes('edit_users');
+  const canDelete = permissions?.includes('delete_users');
   const columns = [
     { label: 'Username', render: (u: User) => u.username },
     { label: 'Email', render: (u: User) => u.email },
@@ -36,18 +40,22 @@ export const UserTable = ({
       label: 'Actions',
       render: (u: User) => (
         <div className="flex gap-2">
-          <button
-            className="bg-blue-500 text-sm rounded-md text-white px-4 py-1 hover:bg-blue-600"
-            onClick={() => onEditClick(u)}
-          >
-            Edit
-          </button>
-          <button
-            className="bg-red-600 text-sm rounded-md text-white px-2 py-1 hover:bg-red-700"
-            onClick={() => onDeleteClick(u)}
-          >
-            Delete
-          </button>
+          {canEdit && (
+            <button
+              className="bg-blue-500 text-sm rounded-md text-white px-4 py-1 hover:bg-blue-600"
+              onClick={() => onEditClick(u)}
+            >
+              Edit
+            </button>
+          )}
+          {canDelete && (
+            <button
+              className="bg-red-600 text-sm rounded-md text-white px-2 py-1 hover:bg-red-700"
+              onClick={() => onDeleteClick(u)}
+            >
+              Delete
+            </button>
+          )}
         </div>
       ),
     },

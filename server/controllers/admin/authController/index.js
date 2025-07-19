@@ -33,6 +33,7 @@ const login = async (req, res) => {
         email: user.email,
         name: user.name,
         role: user.role,
+        permissions: user.permissions || [],
       },
     });
   } catch (error) {

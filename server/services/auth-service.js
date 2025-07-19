@@ -22,6 +22,7 @@ const generateToken = (user) => {
       id: user.id,
       email: user.email,
       role: user.role,
+      permissions: user.permissions || [],
     },
     JWT_SECRET,
     { expiresIn: JWT_EXPIRES_IN }
@@ -69,7 +70,6 @@ const loginUser = async ({ username, password }, allowedRoles = []) => {
 
   const match = await comparePasswords(password, user.password);
   if (!match) throw new Error('Invalid credentials');
-
   return { user, token: generateToken(user) };
 };
 

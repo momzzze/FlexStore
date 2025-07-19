@@ -20,14 +20,26 @@ import { Button } from '@/components/ui/button';
 import { ConfirmActionModal } from '@/components/ConfirmActionModal';
 
 export default function UsersPage() {
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.auth
+  );
+
   const dispatch = useDispatch<AppDispatch>();
   const [showUserModal, setShowUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserFormValues | null>(null);
   const [confirmDeleteUser, setConfirmDeleteUser] = useState<User | null>(null);
 
-  const { users, loading, page, totalPages, limit } = useSelector(
-    (state: RootState) => state.users
-  );
+  const hasPermission = (perm: string) => {
+    return (user?.permissions ?? []).includes(perm);
+  };
+
+  const {
+    users = [],
+    loading,
+    page,
+    totalPages,
+    limit,
+  } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     dispatch(fetchUsers({ page, limit }));
@@ -40,6 +52,7 @@ export default function UsersPage() {
 
   const handleEditClick = (user: User) => {
     setSelectedUser({
+      id: user.id,
       username: user.username,
       email: user.email,
       name: user.name,
@@ -64,7 +77,9 @@ export default function UsersPage() {
           role: data.role,
         };
         console.log('Updating user:', userId, userPayload);
-        dispatch(fetchUpdateUser({ userId: userId!, user: userPayload }));
+        dispatch(
+          fetchUpdateUser({ userId: selectedUser.id!, user: userPayload })
+        );
         toast.success('User updated successfully');
       } else {
         console.log('Creating user:', data);
@@ -92,15 +107,14 @@ export default function UsersPage() {
       setConfirmDeleteUser(null);
     }
   };
-  const deleteHandler = (user: User) => {
-    dispatch(fetchDeleteUser(user.id));
-  };
 
   return (
     <div className="p-6 space-y-6">
       <h1 className="text-2xl font-bold">Users</h1>
       <div className="flex justify-end">
-        <Button onClick={handleCreateClick}>Create User</Button>
+        {hasPermission('create_users') && (
+          <Button onClick={handleCreateClick}>Create User</Button>
+        )}
       </div>
       <UserTable
         data={users}
@@ -112,6 +126,7 @@ export default function UsersPage() {
         handleLimitChange={handleLimitChange}
         onEditClick={handleEditClick}
         onDeleteClick={(user) => setConfirmDeleteUser(user)}
+        permissions={user?.permissions}
       />
 
       <UserFormModal
