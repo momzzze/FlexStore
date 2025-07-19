@@ -97,6 +97,31 @@
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
 }
+/* Global scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted-foreground);
+  border-radius: 8px;
+  border: 2px solid var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Firefox */
+* {
+  scrollbar-color: var(--color-muted-foreground) var(--color-muted);
+  scrollbar-width: thin;
+}
 
 @layer base {
   * {

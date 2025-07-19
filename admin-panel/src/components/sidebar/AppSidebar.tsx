@@ -107,28 +107,15 @@ export function AppSidebar({ onClose }: { onClose?: () => void }) {
               <CollapsibleContent className="pl-6 mt-1 space-y-1">
                 <SidebarMenuSub>
                   <SidebarMenuSubItem>
-                    <Link to="/settings/general">
+                    <Link to="/settings/users">
                       <SidebarMenuButton
                         className={clsx(
                           'w-full px-3 py-1.5 rounded-md text-sm hover:bg-accent',
-                          isActive('/settings/general') &&
+                          isActive('/settings/users') &&
                             'bg-accent text-foreground font-medium'
                         )}
                       >
-                        General
-                      </SidebarMenuButton>
-                    </Link>
-                  </SidebarMenuSubItem>
-                  <SidebarMenuSubItem>
-                    <Link to="/settings/account">
-                      <SidebarMenuButton
-                        className={clsx(
-                          'w-full px-3 py-1.5 rounded-md text-sm hover:bg-accent',
-                          isActive('/settings/account') &&
-                            'bg-accent text-foreground font-medium'
-                        )}
-                      >
-                        Account
+                        Users
                       </SidebarMenuButton>
                     </Link>
                   </SidebarMenuSubItem>

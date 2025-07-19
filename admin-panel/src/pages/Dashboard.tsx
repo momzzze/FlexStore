@@ -15,7 +15,7 @@ import {
 } from '@/utils/chartManipulations';
 import { ProjectTableContainer } from '@/components/dashboard/ProjectTasksTable';
 import { useBreadcrumb } from '@/contexts/BreadcrumbContext';
-
+import { useDashboardAnimations } from '@/hooks/useDashboardAnimation';
 export const projects = [
   {
     id: 1,
@@ -118,6 +118,8 @@ const columns = [
   { label: 'Reviewer', render: (p) => p.reviewer },
 ];
 export default function Dashboard() {
+  const setCardRef = useDashboardAnimations();
+
   const [selectedChart, setSelectedChart] = useState<
     'visitors' | 'amounts' | 'orders'
   >('visitors');
@@ -147,21 +149,25 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
+          className="animate-card"
           title="Total Revenue"
           value={mockData.totalRevenue}
           description="Trending up this month"
         />
         <MetricCard
+          className="animate-card"
           title="New Customers"
           value={mockData.newCustomers}
           description="Down 20% this period"
         />
         <MetricCard
+          className="animate-card"
           title="Active Accounts"
           value={mockData.activeAccounts}
           description="Strong user retention"
         />
         <MetricCard
+          className="animate-card"
           title="Growth Rate"
           value={mockData.growthRate}
           description="Steady performance increase"

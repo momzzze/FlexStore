@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/breadcrumb';
 
 export const breadcrumbMap = {
-  '/': 'Home',
   '/dashboard': 'Dashboard',
   '/about': 'About',
   '/clients': 'Clients',
@@ -29,9 +28,7 @@ export default function Breadcrumbs() {
   return (
     <Breadcrumb className="mb-4">
       <BreadcrumbList>
-        <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
-        </BreadcrumbItem>
+        <BreadcrumbItem></BreadcrumbItem>
         {segments.map((segment, idx) => {
           pathStack.push(segment);
           const currentPath = '/' + pathStack.join('/');
@@ -51,7 +48,7 @@ export default function Breadcrumbs() {
                 id || segment // fallback
               );
             }
-            return breadcrumbMap[labelFnOrString];
+            return breadcrumbMap[labelFnOrString as keyof typeof breadcrumbMap];
           })();
 
           const isLast = idx === segments.length - 1;

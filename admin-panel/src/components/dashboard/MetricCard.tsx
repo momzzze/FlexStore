@@ -1,15 +1,16 @@
-// src/components/dashboard/MetricCard.tsx
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { forwardRef } from 'react';
 
 interface MetricCardProps {
   title: string;
   value: string | number;
   description?: string;
+  className?: string;
 }
 
-export function MetricCard({ title, value, description }: MetricCardProps) {
-  return (
-    <Card>
+export const MetricCard = forwardRef<HTMLDivElement, MetricCardProps>(
+  ({ title, value, description, className }, ref) => (
+    <Card ref={ref} className={className}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
@@ -20,5 +21,7 @@ export function MetricCard({ title, value, description }: MetricCardProps) {
         )}
       </CardContent>
     </Card>
-  );
-}
+  )
+);
+
+MetricCard.displayName = 'MetricCard';

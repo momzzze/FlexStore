@@ -15,9 +15,22 @@ export interface GenericColumn<T> {
 interface GenericTableProps<T> {
   data: T[];
   columns: GenericColumn<T>[];
+  loading?: boolean;
 }
 
-export function GenericTable<T>({ data, columns }: GenericTableProps<T>) {
+export function GenericTable<T>({
+  data,
+  columns,
+  loading,
+}: GenericTableProps<T>) {
+  if (loading) {
+    return <div className="text-center p-4">Loading...</div>;
+  }
+
+  if (data.length === 0) {
+    return <div className="text-center p-4">No data available</div>;
+  }
+
   return (
     <Table>
       <TableHeader>
