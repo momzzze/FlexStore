@@ -1,4 +1,5 @@
 const BASE_URL = import.meta.env.VITE_API_URL || '';
+import { store } from '@/store';
 
 type RequestOptions = RequestInit & {
   headers?: Record<string, string>;
@@ -10,11 +11,15 @@ async function request<T>(
   data?: unknown,
   options: RequestOptions = {}
 ): Promise<T> {
+  const state = store.getState();
+  const token = state.auth.token;
+
   const config: RequestInit = {
     method,
     headers: {
       'Content-Type': 'application/json',
       ...(options.headers || {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     ...options,
   };

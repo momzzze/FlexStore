@@ -8,6 +8,7 @@ async function logActivity({
   entityType,
   entityId = null,
   details = {},
+  metadata = {},
 }) {
   await prisma.activityLog.create({
     data: {
@@ -17,6 +18,7 @@ async function logActivity({
       entityType,
       entityId,
       details,
+      metadata,
     },
   });
 }

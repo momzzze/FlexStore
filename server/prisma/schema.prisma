@@ -25,8 +25,9 @@ model ActivityLog {
   userType    String    // 'bo_user', 'client', 'guest'
   action      String    // 'login', 'register', 'order_created', etc.
   entityType  String    // 'order', 'invoice', 'login', etc.
-  entityId    String?   // optional related entity ID
+  entityId    Int?   // optional related entity ID
   details     Json?     // extra data
   createdAt   DateTime  @default(now())
   updatedAt DateTime @updatedAt @default(now())
+  metadata    Json?     // additional metadata
 }

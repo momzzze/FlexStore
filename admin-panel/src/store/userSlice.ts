@@ -1,4 +1,10 @@
-import { getUsers, type User } from '@/services/userService';
+import {
+  createUser,
+  deleteUser,
+  getUsers,
+  updateUser,
+  type User,
+} from '@/services/userService';
 import {
   createSlice,
   createAsyncThunk,
@@ -32,6 +38,35 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
+export const fetchDeleteUser = createAsyncThunk(
+  'users/deleteUser',
+  async (userId: number) => {
+    return await deleteUser(userId);
+  }
+);
+
+export const fetchCreateUser = createAsyncThunk(
+  'users/createUser',
+  async (
+    user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<{ success: boolean; data: User }> => {
+    return await createUser(user);
+  }
+);
+
+export const fetchUpdateUser = createAsyncThunk(
+  'users/updateUser',
+  async ({
+    userId,
+    user,
+  }: {
+    userId: number;
+    user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
+  }) => {
+    return await updateUser(userId, user);
+  }
+);
+
 const usersSlice = createSlice({
   name: 'users',
   initialState,
@@ -59,6 +94,25 @@ const usersSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch users';
+      })
+      .addCase(fetchDeleteUser.fulfilled, (state, action) => {
+        const deletedUser = action.payload.data;
+        state.users = state.users.filter((user) => user.id !== deletedUser.id);
+      })
+      .addCase(fetchCreateUser.fulfilled, (state, action) => {
+        const user = action.payload.data;
+        state.users.push(user);
+        state.total += 1;
+        state.totalPages = Math.ceil(state.total / state.limit);
+      })
+      .addCase(fetchUpdateUser.fulfilled, (state, action) => {
+        const updatedUser = action.payload.data;
+        const index = state.users.findIndex(
+          (user) => user.id === updatedUser.id
+        );
+        if (index !== -1) {
+          state.users[index] = updatedUser;
+        }
       });
   },
 });

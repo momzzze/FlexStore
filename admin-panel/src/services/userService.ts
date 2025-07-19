@@ -22,3 +22,22 @@ export const getUsers = async (
 ): Promise<PaginatedUsersResponse> => {
   return api.get<PaginatedUsersResponse>(`/users?page=${page}&limit=${limit}`);
 };
+
+export const deleteUser = async (
+  userId: number
+): Promise<{ success: boolean; data: User }> => {
+  return api.delete<{ success: boolean; data: User }>(`/users/${userId}`);
+};
+
+export const createUser = async (
+  user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>
+): Promise<{ success: boolean; data: User }> => {
+  return api.post<{ success: boolean; data: User }>('/users', user);
+};
+
+export const updateUser = async (
+  userId: number,
+  user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>
+): Promise<{ success: boolean; data: User }> => {
+  return api.put<{ success: boolean; data: User }>(`/users/${userId}`, user);
+};
