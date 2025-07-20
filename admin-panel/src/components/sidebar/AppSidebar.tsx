@@ -132,6 +132,19 @@ export function AppSidebar({ onClose }: { onClose?: () => void }) {
                       </SidebarMenuButton>
                     </Link>
                   </SidebarMenuSubItem>
+                  <SidebarMenuSubItem>
+                    <Link to="/settings/profile">
+                      <SidebarMenuButton
+                        className={clsx(
+                          'w-full px-3 py-1.5 rounded-md text-sm hover:bg-accent',
+                          isActive('/settings/profile') &&
+                            'bg-accent text-foreground font-medium'
+                        )}
+                      >
+                        Profile
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuSubItem>
                 </SidebarMenuSub>
               </CollapsibleContent>
             </Collapsible>

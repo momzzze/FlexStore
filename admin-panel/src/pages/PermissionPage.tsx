@@ -110,8 +110,6 @@ export default function PermissionsPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Permissions</h1>
-
       <div className="rounded-xl border bg-card text-card-foreground shadow max-h-[600px] overflow-y-auto">
         <GenericTable
           columns={columns}

@@ -56,3 +56,11 @@ export const updateUserPermissions = async (
 ): Promise<{ success: boolean; data: string[] }> => {
   return api.put(`/users/${userId}/permissions`, { permissions });
 };
+
+export const changePassword = async (
+  userId: number,
+  oldPassword: string,
+  newPassword: string
+): Promise<{ success: boolean }> => {
+  return api.put(`/users/${userId}/password`, { oldPassword, newPassword });
+};

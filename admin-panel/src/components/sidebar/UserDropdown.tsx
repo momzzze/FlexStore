@@ -11,11 +11,12 @@ import { useTheme } from '@/components/theme-provider';
 import { Sun, Moon, Laptop, LogOut, User } from 'lucide-react';
 import { logout } from '@/store/authSlice';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export const UserDropdown = () => {
   const { setTheme } = useTheme();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logout());
     console.log('User logged out');
@@ -36,7 +37,7 @@ export const UserDropdown = () => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent side="top" align="start" className="w-48">
-        <DropdownMenuItem onClick={() => console.log('Edit profile')}>
+        <DropdownMenuItem onClick={() => navigate('/settings/profile')}>
           <User className="mr-2 h-4 w-4" />
           Edit Profile
         </DropdownMenuItem>

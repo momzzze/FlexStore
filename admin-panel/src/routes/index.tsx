@@ -10,6 +10,7 @@ import ClientsPage from '@/pages/ClientPage';
 import ClientDetailsPage from '@/pages/ClientDetailsPage';
 import UsersPage from '@/pages/UsersPage';
 import PermissionsPage from '@/pages/PermissionPage';
+import ProfilePage from '@/pages/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
         children: [
           { path: 'users', element: <UsersPage /> },
           { path: 'permissions', element: <PermissionsPage /> },
+          { path: 'profile', element: <ProfilePage /> },
         ],
       },
       { path: 'clients', element: <ClientsPage /> },

@@ -14,8 +14,9 @@ export const breadcrumbMap = {
   '/clients': 'Clients',
   '/clients/:id': (id: string) => `Client ${id}`,
   '/settings': 'Settings',
-  '/settings/general': 'General',
-  '/settings/account': 'Account',
+  '/settings/users': 'Users',
+  '/settings/permissions': 'Permissions',
+  '/settings/profile': 'Profile',
 };
 
 export default function Breadcrumbs() {
