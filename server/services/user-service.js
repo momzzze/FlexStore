@@ -10,7 +10,7 @@ const getAllUsers = async (page, limit) => {
     prisma.user.findMany({
       skip,
       take: limit,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { updatedAt: 'desc' },
       select: {
         id: true,
         email: true,
@@ -18,6 +18,8 @@ const getAllUsers = async (page, limit) => {
         name: true,
         role: true,
         createdAt: true,
+        updatedAt: true,
+        permissions: true,
       },
     }),
     prisma.user.count(),
@@ -118,10 +120,41 @@ const createUser = async (data, adminUserId) => {
   return user;
 };
 
+const getUserPermissionsById = async (userId) => {
+  const user = await prisma.user.findUnique({
+    where: { id: Number(userId) },
+    select: {
+      permissions: true,
+    },
+  });
+
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  return Array.isArray(user.permissions) ? user.permissions : [];
+};
+
+const updateUserPermissionsService = async (userId, permissions) => {
+  const user = await prisma.user.update({
+    where: { id: Number(userId) },
+    data: { permissions },
+    select: {
+      id: true,
+      username: true,
+      permissions: true,
+    },
+  });
+
+  return user;
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
   createUser,
   deleteUser,
   updateUser,
+  getUserPermissionsById,
+  updateUserPermissionsService,
 };

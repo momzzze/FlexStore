@@ -119,6 +119,19 @@ export function AppSidebar({ onClose }: { onClose?: () => void }) {
                       </SidebarMenuButton>
                     </Link>
                   </SidebarMenuSubItem>
+                  <SidebarMenuSubItem>
+                    <Link to="/settings/permissions">
+                      <SidebarMenuButton
+                        className={clsx(
+                          'w-full px-3 py-1.5 rounded-md text-sm hover:bg-accent',
+                          isActive('/settings/permissions') &&
+                            'bg-accent text-foreground font-medium'
+                        )}
+                      >
+                        Permissions
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuSubItem>
                 </SidebarMenuSub>
               </CollapsibleContent>
             </Collapsible>

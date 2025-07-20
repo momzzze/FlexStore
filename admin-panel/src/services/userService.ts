@@ -8,6 +8,7 @@ export interface User {
   role: string;
   createdAt: string;
   updatedAt: string;
+  permissions?: string[];
 }
 export interface PaginatedUsersResponse {
   data: User[];
@@ -40,4 +41,18 @@ export const updateUser = async (
   user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<{ success: boolean; data: User }> => {
   return api.put<{ success: boolean; data: User }>(`/users/${userId}`, user);
+};
+
+export const getUserPermissions = async (userId: number): Promise<string[]> => {
+  const response = await api.get<{ success: boolean; data: string[] }>(
+    `/users/${userId}/permissions`
+  );
+  return response.data;
+};
+
+export const updateUserPermissions = async (
+  userId: number,
+  permissions: string[]
+): Promise<{ success: boolean; data: string[] }> => {
+  return api.put(`/users/${userId}/permissions`, { permissions });
 };

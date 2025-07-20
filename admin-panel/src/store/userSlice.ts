@@ -1,8 +1,10 @@
 import {
   createUser,
   deleteUser,
+  getUserPermissions,
   getUsers,
   updateUser,
+  updateUserPermissions,
   type User,
 } from '@/services/userService';
 import {
@@ -19,6 +21,8 @@ interface UsersState {
   limit: number;
   total: number;
   totalPages: number;
+  permissions: Record<number, string[]>; // userId -> permissions
+  permissionsLoading: boolean;
 }
 
 const initialState: UsersState = {
@@ -29,6 +33,8 @@ const initialState: UsersState = {
   limit: 10,
   total: 0,
   totalPages: 0,
+  permissions: {},
+  permissionsLoading: false,
 };
 
 export const fetchUsers = createAsyncThunk(
@@ -64,6 +70,26 @@ export const fetchUpdateUser = createAsyncThunk(
     user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
   }) => {
     return await updateUser(userId, user);
+  }
+);
+
+export const fetchUserPermissions = createAsyncThunk(
+  'users/fetchUserPermissions',
+  async (userId: number) => {
+    return await getUserPermissions(userId);
+  }
+);
+
+export const fetchUpdateUserPermissions = createAsyncThunk(
+  'users/updateUserPermissions',
+  async ({
+    userId,
+    permissions,
+  }: {
+    userId: number;
+    permissions: string[];
+  }) => {
+    return await updateUserPermissions(userId, permissions);
   }
 );
 
@@ -113,6 +139,21 @@ const usersSlice = createSlice({
         if (index !== -1) {
           state.users[index] = updatedUser;
         }
+      })
+      .addCase(fetchUserPermissions.pending, (state) => {
+        state.permissionsLoading = true;
+      })
+      .addCase(fetchUserPermissions.fulfilled, (state, action) => {
+        const userId = action.meta.arg;
+        state.permissions[userId] = action.payload;
+        state.permissionsLoading = false;
+      })
+      .addCase(fetchUserPermissions.rejected, (state) => {
+        state.permissionsLoading = false;
+      })
+      .addCase(fetchUpdateUserPermissions.fulfilled, (state, action) => {
+        const userId = action.meta.arg.userId;
+        state.permissions[userId] = action.payload.data;
       });
   },
 });

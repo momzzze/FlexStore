@@ -4,6 +4,8 @@ const {
   deleteUser,
   updateUser,
   createUser,
+  updateUserPermissionsService,
+  getUserPermissionsById,
 } = require('../../../services/user-service');
 const { errorHandler } = require('../../../utils/error-handling');
 
@@ -110,10 +112,55 @@ const removeUser = async (req, res) => {
   }
 };
 
+const getUserPermissions = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const permissions = await getUserPermissionsById(userId);
+
+    if (!permissions) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: permissions,
+    });
+  } catch (error) {
+    errorHandler(error, res);
+  }
+};
+const updateUserPermissions = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { permissions } = req.body;
+
+    if (!Array.isArray(permissions)) {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Permissions must be an array' });
+    }
+
+    const updatedUser = await updateUserPermissionsService(userId, permissions);
+
+    res.status(200).json({
+      success: true,
+      message: 'Permissions updated',
+      data: updatedUser,
+    });
+  } catch (error) {
+    errorHandler(error, res);
+  }
+};
+
 module.exports = {
   getUsers,
   getUser,
   addUser,
   editUser,
   removeUser,
+  getUserPermissions,
+  updateUserPermissions,
 };
